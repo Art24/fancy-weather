@@ -81,9 +81,9 @@ function getDateNow(months, weeks) {
 const dateHelper = function getDateHelper(localization) {
     if (localization === 'en') {
         return getDateNow(monthsEn, weeksEn);
-    } else if (localization === 'ru') {
+    } if (localization === 'ru') {
         return getDateNow(monthsRu, weeksRu);
-    } else if (localization === 'by') {
+    } if (localization === 'by') {
         return getDateNow(monthsBy, weeksBy)
     }
     return getDateNow(monthsEn, weeksEn);
