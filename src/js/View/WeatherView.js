@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 /* eslint-disable class-methods-use-this */
 class WeatherView {
     constructor() {
@@ -44,9 +46,14 @@ class WeatherView {
     showCurrentWeather(dto) {
         console.log(dto);
         this.sectionOne = document.getElementById('sectionOne');
-        const weatherNowWrapper = this.createElement('div', 'weather-now-wrapper');
+        const weatherNowWrapper = this.createElement('ul', 'weather-now-wrapper');
         this.sectionOne.appendChild(weatherNowWrapper);
-        weatherNowWrapper.innerHTML = `Temperature: ${dto.temperature}\n Wind: ${dto.wind}\n ${dto.sky} \n Humidity: ${dto.humidity}\n` ;
+        for(const item in dto)
+        {
+            const listViewItem = document.createElement('li');
+            listViewItem.innerHTML = dto[item];
+            weatherNowWrapper.appendChild(listViewItem);
+        }
     }
 }
 export default WeatherView;

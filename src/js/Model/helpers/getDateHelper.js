@@ -1,16 +1,16 @@
 const monthsEn = {
-    1: 'January',
-    2: 'February',
-    3: 'March',
-    4: 'April',
-    5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'September',
-    10: 'October',
-    11: 'November',
-    12: 'December',
+    0: 'January',
+    1: 'February',
+    2: 'March',
+    3: 'April',
+    4: 'May',
+    5: 'June',
+    6: 'July',
+    7: 'August',
+    8: 'September',
+    9: 'October',
+    10: 'November',
+    11: 'December',
 }
 const weeksEn = {
     1: 'Monday',
@@ -22,18 +22,18 @@ const weeksEn = {
     7: 'Sunday',
 }
 const monthsRu = {
-    1: 'Январь',
-    2: 'Февраль',
-    3: 'Март',
-    4: 'Апрель',
-    5: 'Май',
-    6: 'Июнь',
-    7: 'Июль',
-    8: 'Август',
-    9: 'Сентябрь',
-    10: 'Октябрь',
-    11: 'Ноябрь',
-    12: 'Декабрь',
+    0: 'Январь',
+    1: 'Февраль',
+    2: 'Март',
+    3: 'Апрель',
+    4: 'Май',
+    5: 'Июнь',
+    6: 'Июль',
+    7: 'Август',
+    8: 'Сентябрь',
+    9: 'Октябрь',
+    10: 'Ноябрь',
+    11: 'Декабрь',
 }
 const weeksRu = {
     1: 'Понедельник',
@@ -69,6 +69,7 @@ const weeksBy = {
 }
 function getDateNow(months, weeks) {
     const date = new Date();
+    console.log(date.getMonth());
     const timeString = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     const dataObj = {
         dayOfWeek: weeks[date.getDay()],

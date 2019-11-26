@@ -10,8 +10,9 @@ class WeatherController {
         this.view = view;
         this.locationService = new LocationService();
         this.weatherService = new WeatherService();
-        this.localization = 'ru';
+        this.localization = 'by';
         this.city = 'Minsk'
+        this.degreesType = 'F';
         this.getLocation();
     }
 
@@ -22,7 +23,7 @@ class WeatherController {
                 this.getDate();
             })
             .then( _ => {
-                this.getWeather(this.localization, this.city);
+                this.getWeather(this.localization, this.degreesType, this.city);
             })
     }
 
@@ -31,10 +32,11 @@ class WeatherController {
         this.view.showCurrentDate(currentTime);
     }
 
-    getWeather(localization, city) {
+    getWeather(localization, degreesType, city) {
         this.weatherService.getWeather(city, localization)
         .then(res => {
-            const currentWeather = temperatureHelper(localization, res);
+            console.log(res);
+            const currentWeather = temperatureHelper(localization, degreesType, res);
             return currentWeather;
         })
         .then(currentWeather => this.view.showCurrentWeather(currentWeather));
