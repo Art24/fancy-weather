@@ -11,6 +11,8 @@ class WeatherView {
         this.changeToEngEvent = new Event(this);
         this.changeToRusEvent = new Event(this);
         this.changeToBelEvent = new Event(this);
+        this.changeToFahrEvent = new Event(this);
+        this.changeToCelEvent = new Event(this);
         this.init();
         this.sectionOne = document.getElementById('sectionOne');
     }
@@ -29,16 +31,25 @@ class WeatherView {
         this.root.appendChild(sectionTwo);
         this.root.appendChild(sectionThree);
         this.changeLanguageInterface();
+        this.changeDegreeInterface();
     }
 
     changeLanguageInterface() {
-        const header = document.getElementById('header');
+        this.header = document.getElementById('header');
         const changeLangButtonEn = this.htmlHelper.createButton('submit', 'EN', this.changeToEng.bind(this, 'EN'));
         const changeLangButtonRu = this.htmlHelper.createButton('submit', 'RU', this.changeToRus.bind(this, 'RU'));
         const changeLangButtonBy = this.htmlHelper.createButton('submit', 'BY', this.changeToBel.bind(this, 'BY'));
-        header.appendChild(changeLangButtonEn);
-        header.appendChild(changeLangButtonRu);
-        header.appendChild(changeLangButtonBy);
+        this.header.appendChild(changeLangButtonEn);
+        this.header.appendChild(changeLangButtonRu);
+        this.header.appendChild(changeLangButtonBy);
+    }
+
+    changeDegreeInterface() {
+        this.header = document.getElementById('header');
+        const changeDegreeButtonCel = this.htmlHelper.createButton('submit', 'C', this.changeToCel.bind(this, 'C'));
+        const changeDegreeButtonFahr = this.htmlHelper.createButton('submit', 'F', this.changeToFahr.bind(this, 'F'));
+        this.header.appendChild(changeDegreeButtonCel);
+        this.header.appendChild(changeDegreeButtonFahr);
     }
     
     changeToEng(lang) {
@@ -51,9 +62,19 @@ class WeatherView {
         this.changeToBelEvent.notify(lang);
     }
 
-    changeToRus(lang) {
+    changeToRus(dergee) {
         this.sectionOne.innerHTML = '';
-        this.changeToRusEvent.notify(lang);
+        this.changeToRusEvent.notify(dergee);
+    }
+
+    changeToFahr(dergee) {
+        this.sectionOne.innerHTML = '';
+        this.changeToFahrEvent.notify(dergee);
+    }
+
+    changeToCel(dergee) {
+        this.sectionOne.innerHTML = '';
+        this.changeToCelEvent.notify(dergee);
     }
 
     showUserLocation(dto) {

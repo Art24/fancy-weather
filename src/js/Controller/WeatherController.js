@@ -17,22 +17,39 @@ class WeatherController {
         this.view.changeToEngEvent.attach(this.getLocation.bind(this));
         this.view.changeToRusEvent.attach(this.getLocation.bind(this));
         this.view.changeToBelEvent.attach(this.getLocation.bind(this));
+        this.view.changeToFahrEvent.attach(this.getLocationAndDegree.bind(this));
+        this.view.changeToCelEvent.attach(this.getLocationAndDegree.bind(this));
 
     }
 
     getLocation(sender, localization) {
+        // eslint-disable-next-line no-unused-expressions
+        localization ? this.localization = localization : localization;
         this.locationService.getUserLocation()
             .then(response => this.view.showUserLocation(response))
             .then(res => {
-                this.getDate();
+                this.getDate(localization || this.localization);
             })
             .then( _ => {
                 this.getWeather(localization || this.localization, this.degreesType, this.city);
             })
     }
 
-    getDate() {
-        const currentTime = getDateHelper(this.localization);
+    getLocationAndDegree(sender, degree) {
+        // eslint-disable-next-line no-unused-expressions
+        degree ? this.degreesType = degree : degree;
+        this.locationService.getUserLocation()
+            .then(response => this.view.showUserLocation(response))
+            .then(res => {
+                this.getDate(this.localization);
+            })
+            .then( _ => {
+                this.getWeather(this.localization, degree || this.degreesType, this.city);
+            })
+    }
+
+    getDate(localization) {
+        const currentTime = getDateHelper(localization);
         this.view.showCurrentDate(currentTime);
     }
 
