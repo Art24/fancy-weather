@@ -69,7 +69,6 @@ const weeksBy = {
 }
 function getDateNow(months, weeks) {
     const date = new Date();
-    console.log(date.getMonth());
     const timeString = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     const dataObj = {
         dayOfWeek: weeks[date.getDay()],
@@ -80,11 +79,11 @@ function getDateNow(months, weeks) {
     return dataObj;
 }
 const dateHelper = function getDateHelper(localization) {
-    if (localization === 'en') {
+    if (localization === 'EN') {
         return getDateNow(monthsEn, weeksEn);
-    } if (localization === 'ru') {
+    } if (localization === 'RU') {
         return getDateNow(monthsRu, weeksRu);
-    } if (localization === 'by') {
+    } if (localization === 'BY') {
         return getDateNow(monthsBy, weeksBy)
     }
     return getDateNow(monthsEn, weeksEn);

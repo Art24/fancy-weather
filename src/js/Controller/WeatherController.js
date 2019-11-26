@@ -10,20 +10,24 @@ class WeatherController {
         this.view = view;
         this.locationService = new LocationService();
         this.weatherService = new WeatherService();
-        this.localization = 'by';
+        this.localization = 'BY';
         this.city = 'Minsk'
         this.degreesType = 'F';
         this.getLocation();
+        this.view.changeToEngEvent.attach(this.getLocation.bind(this));
+        this.view.changeToRusEvent.attach(this.getLocation.bind(this));
+        this.view.changeToBelEvent.attach(this.getLocation.bind(this));
+
     }
 
-    getLocation() {
+    getLocation(sender, localization) {
         this.locationService.getUserLocation()
             .then(response => this.view.showUserLocation(response))
             .then(res => {
                 this.getDate();
             })
             .then( _ => {
-                this.getWeather(this.localization, this.degreesType, this.city);
+                this.getWeather(localization || this.localization, this.degreesType, this.city);
             })
     }
 
@@ -35,7 +39,6 @@ class WeatherController {
     getWeather(localization, degreesType, city) {
         this.weatherService.getWeather(city, localization)
         .then(res => {
-            console.log(res);
             const currentWeather = temperatureHelper(localization, degreesType, res);
             return currentWeather;
         })

@@ -50,11 +50,11 @@ function getTemperatureNow(obj, degreesType, weatherLang) {
     return tempObj;
 }
 const temperatureHelper = function getTempteratureHelper(localization, degreesType, temperatureNowObj) {
-    if (localization === 'en') {
+    if (localization === 'EN') {
         return getTemperatureNow(temperatureNowObj, degreesType, weatherEn);
-    } if (localization === 'ru') {
+    } if (localization === 'RU') {
         return getTemperatureNow(temperatureNowObj, degreesType, weatherRu);
-    } if (localization === 'by') {
+    } if (localization === 'BY') {
         return getTemperatureNow(temperatureNowObj, degreesType, weatherBy)
     }
     return getTemperatureNow();
