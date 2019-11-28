@@ -67,8 +67,18 @@ const weeksBy = {
     6: 'Субота',
     7: 'Нядзеля',
 }
-function getDateNow(months, weeks) {
-    const date = new Date();
+function getDateNow(localTime, months, weeks) {
+    const splitedData = localTime.split(' ');
+    const days = splitedData[0].split('-');
+    const hours = splitedData[1].split(':');
+    const parserData = {
+        year: days[0],
+        months: days[1] - 1,
+        days: days[2],
+        hours: hours[0],
+        minutes: hours[1],
+    }
+    const date = new Date(parserData.year, parserData.months, parserData.days, parserData.hours, parserData.minutes);
     const timeString = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     const dataObj = {
         dayOfWeek: weeks[date.getDay()],
@@ -78,13 +88,13 @@ function getDateNow(months, weeks) {
     }
     return dataObj;
 }
-const dateHelper = function getDateHelper(localization) {
+const dateHelper = function getDateHelper(localization, localTime) {
     if (localization === 'EN') {
-        return getDateNow(monthsEn, weeksEn);
+        return getDateNow(localTime, monthsEn, weeksEn);
     } if (localization === 'RU') {
-        return getDateNow(monthsRu, weeksRu);
+        return getDateNow(localTime, monthsRu, weeksRu);
     } if (localization === 'BY') {
-        return getDateNow(monthsBy, weeksBy)
+        return getDateNow(localTime, monthsBy, weeksBy)
     }
     return getDateNow(monthsEn, weeksEn);
 }

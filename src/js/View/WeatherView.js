@@ -13,6 +13,7 @@ class WeatherView {
         this.changeToBelEvent = new Event(this);
         this.changeToFahrEvent = new Event(this);
         this.changeToCelEvent = new Event(this);
+        this.findCityEvent = new Event(this);
         this.init();
         this.sectionOne = document.getElementById('sectionOne');
     }
@@ -32,6 +33,7 @@ class WeatherView {
         this.root.appendChild(sectionThree);
         this.changeLanguageInterface();
         this.changeDegreeInterface();
+        this.findCityInterface();
     }
 
     changeLanguageInterface() {
@@ -52,6 +54,14 @@ class WeatherView {
         this.header.appendChild(changeDegreeButtonFahr);
     }
     
+    findCityInterface() {
+        this.header = document.getElementById('header');
+        const cityInput = this.htmlHelper.createInput('text', 'cityInput', true);
+        const findCityButton = this.htmlHelper.createButton('submit', 'Search', this.findCity.bind(this));
+        this.header.appendChild(cityInput);
+        this.header.appendChild(findCityButton);
+    }
+
     changeToEng(lang) {
         this.sectionOne.innerHTML = '';
         this.changeToEngEvent.notify(lang);
@@ -62,25 +72,33 @@ class WeatherView {
         this.changeToBelEvent.notify(lang);
     }
 
-    changeToRus(dergee) {
+    changeToRus(lang) {
         this.sectionOne.innerHTML = '';
-        this.changeToRusEvent.notify(dergee);
+        this.changeToRusEvent.notify(lang);
     }
 
     changeToFahr(dergee) {
-        this.sectionOne.innerHTML = '';
+        const tempNode = document.getElementById('weatherOneInfoList');
+        this.sectionOne.removeChild(tempNode);
         this.changeToFahrEvent.notify(dergee);
     }
 
     changeToCel(dergee) {
-        this.sectionOne.innerHTML = '';
+        const tempNode = document.getElementById('weatherOneInfoList');
+        this.sectionOne.removeChild(tempNode);
         this.changeToCelEvent.notify(dergee);
     }
 
-    showUserLocation(dto) {
+    findCity() {
+        this.sectionOne.innerHTML = '';
+        const cityInputValue = document.getElementById('cityInput').value;
+        this.findCityEvent.notify(undefined, cityInputValue);
+    }
+
+    showUserLocation(city) {
         const userLocationWrapper = this.htmlHelper.createElement('div', 'user-location-wrapper');
         this.sectionOne.appendChild(userLocationWrapper);
-        userLocationWrapper.innerHTML = `${dto.city} , ${dto.country}`;
+        userLocationWrapper.innerHTML = `${city}`;
     }
     
     showCurrentDate(dto) {
@@ -90,13 +108,49 @@ class WeatherView {
     }
 
     showCurrentWeather(dto) {
-        const weatherNowWrapper = this.htmlHelper.createElement('ul', 'weather-now-wrapper');
+        const weatherNowWrapper = this.htmlHelper.createElement('ul', 'weather-one-list');
+        weatherNowWrapper.setAttribute('id', 'weatherOneInfoList');
         this.sectionOne.appendChild(weatherNowWrapper);
+        console.log(dto);
         for(const item in dto)
         {
             const listViewItem = this.htmlHelper.createElement('li');
             listViewItem.innerHTML = dto[item];
             weatherNowWrapper.appendChild(listViewItem);
+        }
+    }
+
+    showWeatherThreeDays(dto) {
+        const weatherFutureWrapper = this.htmlHelper.createElement('div', 'weather-future-wrapper');
+        const weatherTwoWrapper = this.htmlHelper.createElement('ul', 'weather-two-list');
+        const weatherThreeWrapper = this.htmlHelper.createElement('ul', 'weather-three-list');
+        const weatherFourWrapper = this.htmlHelper.createElement('ul', 'weather-four-list');
+        weatherTwoWrapper.setAttribute('id', 'weatherTwoInfoList');
+        weatherThreeWrapper.setAttribute('id', 'weatherThreeInfoList');
+        weatherFourWrapper.setAttribute('id', 'weatherFourInfoList');
+        this.sectionOne.appendChild(weatherFutureWrapper);
+        weatherFutureWrapper.appendChild(weatherTwoWrapper);
+        weatherFutureWrapper.appendChild(weatherThreeWrapper);
+        weatherFutureWrapper.appendChild(weatherFourWrapper);
+        console.log(dto[1]);
+        for(const item in dto[1])
+        {
+            const listViewItem = this.htmlHelper.createElement('li');
+            listViewItem.innerHTML = dto[1][item];
+            console.log(item);
+            weatherTwoWrapper.appendChild(listViewItem);
+        }
+        for(const item in dto[2])
+        {
+            const listViewItem = this.htmlHelper.createElement('li');
+            listViewItem.innerHTML = dto[2][item];
+            weatherThreeWrapper.appendChild(listViewItem);
+        }
+        for(const item in dto[3])
+        {
+            const listViewItem = this.htmlHelper.createElement('li');
+            listViewItem.innerHTML = dto[3][item];
+            weatherFourWrapper.appendChild(listViewItem);
         }
     }
 }

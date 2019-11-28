@@ -3,6 +3,7 @@ import WeatherController from './Controller/WeatherController';
 import WeatherModel from './Model/WeatherModel';
 import WeatherView from './View/WeatherView';
 import HtmlElementService from './Model/helpers/htmlElementHelper';
+import '../css/style.scss';
 
 const htmlService = new HtmlElementService();
 // eslint-disable-next-line no-unused-vars

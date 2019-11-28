@@ -4,7 +4,8 @@ const weatherRu = {
     sky: {
         Clouds: 'Облачно',
         Clear: 'Ясно',
-        Rain: 'Дождь'
+        Rain: 'Дождь',
+        Snow: 'Снег'
     },
     wind: 'Ветер',
 }
@@ -14,7 +15,8 @@ const weatherEn = {
     sky: {
         Clouds: 'Clouds',
         Clear: 'Clear',
-        Rain: 'Rain'
+        Rain: 'Rain',
+        Snow: 'Snow'
     },
     wind: 'Wind',
 }
@@ -24,7 +26,8 @@ const weatherBy = {
     sky: {
         Clouds: 'Воблачна',
         Clear: 'Ясна',
-        Rain: 'Дождж'
+        Rain: 'Дождж',
+        Snow: 'Снег'
     },
     wind: 'Вецер',
 }
@@ -34,20 +37,44 @@ function convertToFahr(temperatureC) {
 }
 
 function getTemperatureNow(obj, degreesType, weatherLang) {
-    let tempTemperature = 0;
-    // converter to another degrees
-    if (degreesType === 'C') {
-        tempTemperature = obj.list[0].main.temp.toFixed(0);
-    } if (degreesType === 'F') {
-        tempTemperature = convertToFahr(obj.list[0].main.temp.toFixed(0));
+
+
+    function degreeChecker(period) {
+        let tempTemperature = 0;
+        if (degreesType === 'C') {
+            tempTemperature = obj.list[period].main.temp.toFixed(0);
+        } if (degreesType === 'F') {
+            tempTemperature = convertToFahr(obj.list[period].main.temp.toFixed(0));
+        }    
+        return tempTemperature;   
     }
-    const tempObj = {
-        temperature: `${weatherLang.temperature} ${tempTemperature} ${degreesType}`,
+    const weatherAllDays = [];
+    const weatherOne = {
+        temperature: `${weatherLang.temperature} ${degreeChecker(0)} ${degreesType}`,
         humidity: `${weatherLang.humidity} ${obj.list[0].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[0].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[0].wind.speed.toFixed(1)}`,
     }
-    return tempObj;
+    const weatherTwo = {
+        temperature: `${weatherLang.temperature} ${degreeChecker(8)} ${degreesType}`,
+        humidity: `${weatherLang.humidity} ${obj.list[8].main.humidity} %`,
+        sky: `${weatherLang.sky[obj.list[8].weather[0].main]}`,
+        wind: `${weatherLang.wind} ${obj.list[8].wind.speed.toFixed(1)}`,
+    }
+    const weatherThree = {
+        temperature: `${weatherLang.temperature} ${degreeChecker(16)} ${degreesType}`,
+        humidity: `${weatherLang.humidity} ${obj.list[16].main.humidity} %`,
+        sky: `${weatherLang.sky[obj.list[16].weather[0].main]}`,
+        wind: `${weatherLang.wind} ${obj.list[16].wind.speed.toFixed(1)}`,
+    }
+    const weatherFour = {
+        temperature: `${weatherLang.temperature} ${degreeChecker(24)} ${degreesType}`,
+        humidity: `${weatherLang.humidity} ${obj.list[24].main.humidity} %`,
+        sky: `${weatherLang.sky[obj.list[24].weather[0].main]}`,
+        wind: `${weatherLang.wind} ${obj.list[24].wind.speed.toFixed(1)}`,
+    }
+    weatherAllDays.push(weatherOne, weatherTwo, weatherThree, weatherFour);
+    return weatherAllDays;
 }
 const temperatureHelper = function getTempteratureHelper(localization, degreesType, temperatureNowObj) {
     if (localization === 'EN') {

@@ -1,0 +1,29 @@
+ul {
+    list-style-type: none;
+}
+.weather-now-wrapper {
+    display: flex;
+    flex-direction: column;
+    .user-location-wrapper {
+        order: 1;
+    }
+    .user-time-wrapper {
+        order: 2;
+    }
+    .weather-one-list {
+        order: 3;
+    }
+    .weather-future-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        order: 4;
+        .weather-two-list {
+        }
+        .weather-three-list {
+        }
+        .weather-four-list {
+        }
+    }
+    
+
+}
