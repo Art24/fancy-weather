@@ -31,6 +31,7 @@ class WeatherController {
         // eslint-disable-next-line no-unused-expressions
         this.locationService.getUserLocation()
             .then((res) => {
+                this.startLoad();
                 return cityName || res.city;
             })
             .then(async (city) => {
@@ -41,6 +42,9 @@ class WeatherController {
                 const localTime = await this.getLocalTime(coords.coords.lat, coords.coords.lon);
                 this.view.showUserLocation(coords.name);
                 this.getDate(localization, localTime.formatted);
+            })
+            .then(() => {
+                this.endLoad();
             });
     }
 
@@ -58,8 +62,10 @@ class WeatherController {
 
 
     getLocationAndDegree(sender, degreesType) {
+        this.degreesType = degreesType;
         const currentWeather = temperatureHelper(this.localization, degreesType, this.lastWeather);
         this.view.showCurrentWeather(currentWeather[0]);
+        this.view.showWeatherThreeDays(currentWeather);
     }
 
     getDate(localization, localTime) {
@@ -88,6 +94,14 @@ class WeatherController {
             coords: dto.city.coord,
             name: dto.city.name,
         };
+    }
+    
+    startLoad() {
+        this.view.startLoad();
+    }
+
+    endLoad() {
+        this.view.endLoad();
     }
 
    

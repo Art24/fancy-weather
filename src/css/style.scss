@@ -1,29 +1,359 @@
+@import 'fonts.scss';
+
+$Montserrat: Montserrat;
+
+body {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: url('https://i.imgur.com/Bt7DZib.png');
+    background-position: top;
+    background-repeat: no-repeat;
+}
 ul {
     list-style-type: none;
 }
-.weather-now-wrapper {
+// LOADER
+.lds-roller {
+    display: none;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+  }
+  .lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    margin: -4px 0 0 -4px;
+  }
+  .lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+  .lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+  }
+  .lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+  .lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+  }
+  .lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+  }
+  .lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+  }
+  .lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+  .lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+  }
+  .lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+  .lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+  }
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+  .lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+  }
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+  .lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+  }
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+  .lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+  }
+  @keyframes lds-roller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+
+// STYLES
+
+header {
     display: flex;
+    justify-content: flex-start;
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 90%;
+    margin-top: 20px auto 50px auto;
+    .choose-language-bar {
+        border: 1px solid rgba(174, 181, 185, 1);
+        border-radius: 5px;
+    }
+    .choose-degree-bar {
+        border: 1px solid rgba(174, 181, 185, 1);
+        border-radius: 5px;
+        margin-left: 30px;
+    }
+    .search-bar {
+        border: 1px solid rgba(174, 181, 185, 1);
+        border-radius: 5px;
+        margin-left: 30px;
+        input[type=text] {
+            padding-left: 20px;
+            width: max-content;
+            height: 94%;
+            border: none;
+            background: rgba(76, 82, 85, 0.4);
+            font-size: 16px;
+            color: white;
+        }
+    }
+    .btn {
+        background: rgba(76, 82, 85, 0.4);;
+        border: none;
+        padding: 10px 15px;
+        color: white;
+        transition: 0.2s;
+        cursor: pointer;
+        &:hover {
+            background: rgba(174, 181, 185, 0.8);
+        }
+        &.active {
+            background: rgba(174, 181, 185, 0.5);
+        }
+    }
+}
+.weather-now-wrapper {
+    display: none;
     flex-direction: column;
+    margin: 0 auto;
+    max-width: 1280px;
+    font-family: $Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 54px;
+    text-transform: uppercase;
+    color: #FFFFFF;
     .user-location-wrapper {
         order: 1;
+        width: 90%;
+        margin: 0 auto;
+        line-height: 1;
+
     }
     .user-time-wrapper {
         order: 2;
+        width: 90%;
+        margin: 0 auto;
+
+    } 
+    .main-temperature {
+        display: flex;
+        align-items: center;
+        order: 3;
+        width: 90%;
+        .big-temperature {
+            display: block;
+            width: max-content;
+            margin-left: 30px;
+            font-size: 200px;
+            line-height: 1.2;
+        }
     }
     .weather-one-list {
-        order: 3;
+        order: 4;
+        font-size: 16px;
+        width: 90%;
+        margin: 0 auto 70px auto;
+        li {
+            line-height: 2;
+        }
+
     }
-    .weather-future-wrapper {
+}
+.weather-future-wrapper {
+    display: none;
+    margin: 0 auto;
+    max-width: 1280px;
+    .weather-future-list {
         display: flex;
         justify-content: flex-start;
-        order: 4;
+        width: 100%;
+        font-family: $Montserrat;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 54px;
+        text-transform: uppercase;
+        color: #FFFFFF;
         .weather-two-list {
+            font-size: 16px;
+            min-height: 155px;
+            li {
+                line-height: 2;
+                &:first-child {
+                    line-height: 1;
+                    font-size: 40px;
+                }
+            }
         }
         .weather-three-list {
+            font-size: 16px;
+            min-height: 155px;
+            li {
+                line-height: 2;
+                &:first-child {
+                    line-height: 1;
+                    font-size: 40px;
+                }
+            }
         }
         .weather-four-list {
+            font-size: 16px;
+            min-height: 155px;
+            li {
+                line-height: 2;
+                &:first-child {
+                    line-height: 1;
+                    font-size: 40px;
+                }
+            }
         }
     }
-    
+}
 
+
+@media screen and (max-width: 760px) {
+    .lds-roller {
+        top: 300px;
+        left: 45%;
+    }
+    header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        div {
+            width: max-content;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px;
+        }
+        .choose-degree-bar {
+            margin: 0;
+        }
+        .choose-degree-bar {
+            order: 3;
+        }
+        .choose-language-bar {
+            order: 2;
+        }
+        .search-bar {
+            order: 1;
+            margin: 10px 0;
+            input[type=text] {
+                height: 32px;
+            }
+        }
+    }
+    .weather-now-wrapper {
+        .main-temperature {
+            .big-temperature {
+                font-size: 150px;
+            }
+            .weather-one-list {
+                padding-top: 50px;
+            }
+        }
+    }
+    .weather-future-wrapper {
+        .weather-future-list {
+            flex-wrap: wrap;
+        }
+
+    }
+}
+@media screen and (max-width: 320px) {
+    .lds-roller {
+        left: 38%;
+    }
+    header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        div {
+            width: max-content;
+            margin: 10px 0;
+        }
+        .btn-language, .btn-degree {
+            padding: 20px 30px;
+        }
+    }
+    .weather-now-wrapper {
+        line-height: 1.5;
+        .user-location-wrapper {
+            width: 87%;
+
+        }
+        .main-temperature {
+            align-items: initial;
+            margin-top: 30px;
+            .big-temperature {
+                font-size: 80px;
+                margin-left: 20px;
+            }
+            .weather-one-list {
+                padding-top: 0;
+                padding-left: 30px;
+                margin-bottom: 50px;
+            }
+        }
+        .user-location-wrapper {
+            line-height: 1.5;
+        }
+        .user-time-wrapper {
+            width: 77%;
+            margin: 0;
+            padding: 0 20px;
+        }
+    }
+    .weather-future-wrapper {
+        .weather-future-list {
+            margin: 0 auto;
+            width: 90%;
+            font-size: 14px;
+            .weather-two-list, .weather-three-list, .weather-four-list {
+                min-height: auto;
+                li {
+                    font-size: 9px;
+                }
+            }
+        }
+    }
 }

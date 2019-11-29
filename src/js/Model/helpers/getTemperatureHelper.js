@@ -33,7 +33,7 @@ const weatherBy = {
 }
 
 function convertToFahr(temperatureC) {
-    return (temperatureC * 9 / 5) + 32;
+    return Math.floor((temperatureC * 9 / 5) + 32);
 }
 
 function getTemperatureNow(obj, degreesType, weatherLang) {
@@ -50,25 +50,25 @@ function getTemperatureNow(obj, degreesType, weatherLang) {
     }
     const weatherAllDays = [];
     const weatherOne = {
-        temperature: `${weatherLang.temperature} ${degreeChecker(0)} ${degreesType}`,
+        temperature: `${degreeChecker(0)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[0].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[0].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[0].wind.speed.toFixed(1)}`,
     }
     const weatherTwo = {
-        temperature: `${weatherLang.temperature} ${degreeChecker(8)} ${degreesType}`,
+        temperature: `${degreeChecker(8)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[8].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[8].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[8].wind.speed.toFixed(1)}`,
     }
     const weatherThree = {
-        temperature: `${weatherLang.temperature} ${degreeChecker(16)} ${degreesType}`,
+        temperature: `${degreeChecker(16)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[16].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[16].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[16].wind.speed.toFixed(1)}`,
     }
     const weatherFour = {
-        temperature: `${weatherLang.temperature} ${degreeChecker(24)} ${degreesType}`,
+        temperature: `${degreeChecker(24)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[24].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[24].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[24].wind.speed.toFixed(1)}`,

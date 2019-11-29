@@ -16,13 +16,23 @@ class WeatherView {
         this.findCityEvent = new Event(this);
         this.init();
         this.sectionOne = document.getElementById('sectionOne');
+        this.sectionTwo = document.getElementById('sectionTwo');
+        this.sectionThree = document.getElementById('sectionThree');
+        this.loader = document.getElementById('loader');
+        this.attachClickEvents();
     }
 
     init() {
         const header = this.htmlHelper.createElement('header', 'header-wrapper');
         const sectionOne = this.htmlHelper.createElement('section' , 'weather-now-wrapper');
         const sectionTwo = this.htmlHelper.createElement('section' , 'weather-future-wrapper');
-        const sectionThree = this.htmlHelper.createElement('section' , 'geolocation-wrapper')
+        const sectionThree = this.htmlHelper.createElement('section' , 'geolocation-wrapper');
+        const loader = this.htmlHelper.createElement('div', 'lds-roller');
+        loader.setAttribute('id', 'loader');
+        for (let i = 0; i < 8; i += 1) {
+            const circle = this.htmlHelper.createElement('div');
+            loader.appendChild(circle);
+        } 
         header.setAttribute('id', 'header');
         sectionOne.setAttribute('id', 'sectionOne');
         sectionTwo.setAttribute('id', 'sectionTwo');
@@ -31,6 +41,7 @@ class WeatherView {
         this.root.appendChild(sectionOne);
         this.root.appendChild(sectionTwo);
         this.root.appendChild(sectionThree);
+        this.root.appendChild(loader);
         this.changeLanguageInterface();
         this.changeDegreeInterface();
         this.findCityInterface();
@@ -38,59 +49,132 @@ class WeatherView {
 
     changeLanguageInterface() {
         this.header = document.getElementById('header');
+        const langBar = this.htmlHelper.createElement('div' , 'choose-language-bar');
         const changeLangButtonEn = this.htmlHelper.createButton('submit', 'EN', this.changeToEng.bind(this, 'EN'));
         const changeLangButtonRu = this.htmlHelper.createButton('submit', 'RU', this.changeToRus.bind(this, 'RU'));
         const changeLangButtonBy = this.htmlHelper.createButton('submit', 'BY', this.changeToBel.bind(this, 'BY'));
-        this.header.appendChild(changeLangButtonEn);
-        this.header.appendChild(changeLangButtonRu);
-        this.header.appendChild(changeLangButtonBy);
+        changeLangButtonEn.setAttribute('class', 'btn btn-language');
+        changeLangButtonRu.setAttribute('class', 'btn btn-language active');
+        changeLangButtonBy.setAttribute('class', 'btn btn-language');
+        langBar.appendChild(changeLangButtonEn);
+        langBar.appendChild(changeLangButtonRu);
+        langBar.appendChild(changeLangButtonBy);
+        this.header.appendChild(langBar);
     }
 
     changeDegreeInterface() {
         this.header = document.getElementById('header');
+        const degreeBar = this.htmlHelper.createElement('div' , 'choose-degree-bar');
         const changeDegreeButtonCel = this.htmlHelper.createButton('submit', 'C', this.changeToCel.bind(this, 'C'));
         const changeDegreeButtonFahr = this.htmlHelper.createButton('submit', 'F', this.changeToFahr.bind(this, 'F'));
-        this.header.appendChild(changeDegreeButtonCel);
-        this.header.appendChild(changeDegreeButtonFahr);
+        changeDegreeButtonCel.setAttribute('class', 'btn btn-degree active');
+        changeDegreeButtonFahr.setAttribute('class', 'btn btn-degree');
+        degreeBar.appendChild(changeDegreeButtonCel);
+        degreeBar.appendChild(changeDegreeButtonFahr);
+        this.header.appendChild(degreeBar);
+        
     }
     
     findCityInterface() {
         this.header = document.getElementById('header');
+        const searchBar = this.htmlHelper.createElement('div' , 'search-bar');
         const cityInput = this.htmlHelper.createInput('text', 'cityInput', true);
         const findCityButton = this.htmlHelper.createButton('submit', 'Search', this.findCity.bind(this));
-        this.header.appendChild(cityInput);
-        this.header.appendChild(findCityButton);
+        findCityButton.setAttribute('class', 'btn');
+        searchBar.appendChild(cityInput);
+        searchBar.appendChild(findCityButton);
+        this.header.appendChild(searchBar);
+    }
+
+    clearActiveLanguages() {
+        this.header.querySelectorAll('.btn-language').forEach((item) => {
+            item.classList.remove('active');
+        });
+    }
+
+    clearActiveDegrees() {
+        this.header.querySelectorAll('.btn-degree').forEach((item) => {
+            item.classList.remove('active');
+        });
+    }
+    
+    disableButton() {
+        this.header.querySelectorAll('.btn').forEach((item) => {
+            // eslint-disable-next-line no-param-reassign
+            item.disabled = true;
+            setTimeout(() => {
+                // eslint-disable-next-line no-param-reassign
+                item.disabled = false;
+            }, 1000)
+        });
     }
 
     changeToEng(lang) {
+        this.clearActiveLanguages();
         this.sectionOne.innerHTML = '';
+        this.sectionTwo.innerHTML = '';
+        this.disableButton();
         this.changeToEngEvent.notify(lang);
     }
 
     changeToBel(lang) {
+        this.clearActiveLanguages();
         this.sectionOne.innerHTML = '';
+        this.sectionTwo.innerHTML = '';
+        this.disableButton();
         this.changeToBelEvent.notify(lang);
     }
 
     changeToRus(lang) {
+        this.clearActiveLanguages();
         this.sectionOne.innerHTML = '';
+        this.sectionTwo.innerHTML = '';
+        this.disableButton();
         this.changeToRusEvent.notify(lang);
     }
 
-    changeToFahr(dergee) {
+    attachClickEvents() {
+        document.querySelectorAll('.btn-language').forEach((item) => {
+            item.addEventListener('click', function() {
+                item.classList.add('active');
+            })
+        });
+        document.querySelectorAll('.btn-degree').forEach((item) => {
+            item.addEventListener('click', function() {
+                item.classList.add('active');
+            })
+        });
+    }
+
+    removeLegacyNodes() {
+        const mainTemp = document.getElementById('mainTemperature')
         const tempNode = document.getElementById('weatherOneInfoList');
-        this.sectionOne.removeChild(tempNode);
+        mainTemp.removeChild(tempNode);
+        mainTemp.removeChild(document.getElementById('bigTemperature'));
+        const futureList = document.getElementById('weatherFutureList');
+        const tempNode2 = document.getElementById('weatherTwoInfoList');
+        const tempNode3 = document.getElementById('weatherThreeInfoList');
+        const tempNode4 = document.getElementById('weatherFourInfoList');
+        futureList.removeChild(tempNode2);
+        futureList.removeChild(tempNode3);
+        futureList.removeChild(tempNode4);
+    }
+
+    changeToFahr(dergee) {
+        this.clearActiveDegrees();
+        this.removeLegacyNodes();
         this.changeToFahrEvent.notify(dergee);
     }
 
     changeToCel(dergee) {
-        const tempNode = document.getElementById('weatherOneInfoList');
-        this.sectionOne.removeChild(tempNode);
+        this.clearActiveDegrees();
+        this.removeLegacyNodes();
         this.changeToCelEvent.notify(dergee);
     }
 
     findCity() {
         this.sectionOne.innerHTML = '';
+        this.sectionTwo.innerHTML = '';
         const cityInputValue = document.getElementById('cityInput').value;
         this.findCityEvent.notify(undefined, cityInputValue);
     }
@@ -108,36 +192,56 @@ class WeatherView {
     }
 
     showCurrentWeather(dto) {
+        let wrapper;
+        console.log(document.getElementById('mainTemperature'));
+        if(!document.getElementById('mainTemperature')) {
+            wrapper = this.htmlHelper.createElement('div', 'main-temperature');
+            wrapper.setAttribute('id', 'mainTemperature');
+        } else {
+            wrapper = document.getElementById('mainTemperature');
+        }
+        const temperature = this.htmlHelper.createElement('span', 'big-temperature');
+        temperature.setAttribute('id', 'bigTemperature');
+        temperature.innerHTML = dto.temperature;
+        wrapper.appendChild(temperature);
         const weatherNowWrapper = this.htmlHelper.createElement('ul', 'weather-one-list');
         weatherNowWrapper.setAttribute('id', 'weatherOneInfoList');
-        this.sectionOne.appendChild(weatherNowWrapper);
-        console.log(dto);
+        wrapper.appendChild(weatherNowWrapper);
         for(const item in dto)
         {
-            const listViewItem = this.htmlHelper.createElement('li');
-            listViewItem.innerHTML = dto[item];
-            weatherNowWrapper.appendChild(listViewItem);
+            if (item !== 'temperature') {
+                const listViewItem = this.htmlHelper.createElement('li');
+                listViewItem.innerHTML = dto[item];
+                weatherNowWrapper.appendChild(listViewItem);
+            }
+            
         }
+        this.sectionOne.appendChild(wrapper);
+
     }
 
     showWeatherThreeDays(dto) {
-        const weatherFutureWrapper = this.htmlHelper.createElement('div', 'weather-future-wrapper');
+        let weatherFutureWrapper;
+        if (!document.getElementById('weatherFutureList')) {
+            weatherFutureWrapper = this.htmlHelper.createElement('div', 'weather-future-list');
+            weatherFutureWrapper.setAttribute('id', 'weatherFutureList');
+            this.sectionTwo.appendChild(weatherFutureWrapper);
+        } else {
+            weatherFutureWrapper = document.getElementById('weatherFutureList')
+        }
         const weatherTwoWrapper = this.htmlHelper.createElement('ul', 'weather-two-list');
         const weatherThreeWrapper = this.htmlHelper.createElement('ul', 'weather-three-list');
         const weatherFourWrapper = this.htmlHelper.createElement('ul', 'weather-four-list');
         weatherTwoWrapper.setAttribute('id', 'weatherTwoInfoList');
         weatherThreeWrapper.setAttribute('id', 'weatherThreeInfoList');
         weatherFourWrapper.setAttribute('id', 'weatherFourInfoList');
-        this.sectionOne.appendChild(weatherFutureWrapper);
         weatherFutureWrapper.appendChild(weatherTwoWrapper);
         weatherFutureWrapper.appendChild(weatherThreeWrapper);
         weatherFutureWrapper.appendChild(weatherFourWrapper);
-        console.log(dto[1]);
         for(const item in dto[1])
         {
             const listViewItem = this.htmlHelper.createElement('li');
             listViewItem.innerHTML = dto[1][item];
-            console.log(item);
             weatherTwoWrapper.appendChild(listViewItem);
         }
         for(const item in dto[2])
@@ -152,6 +256,20 @@ class WeatherView {
             listViewItem.innerHTML = dto[3][item];
             weatherFourWrapper.appendChild(listViewItem);
         }
+    }
+
+    startLoad() {
+        this.sectionOne.style.display = 'none';
+        this.sectionTwo.style.display = 'none';
+        this.sectionThree.style.display = 'none';
+        this.loader.style.display = 'inline-block'
+    }
+    
+    endLoad() {
+        this.sectionOne.style.display = 'flex';
+        this.sectionTwo.style.display = 'flex';
+        this.sectionThree.style.display = 'flex';
+        this.loader.style.display = 'none';
     }
 }
 export default WeatherView;
