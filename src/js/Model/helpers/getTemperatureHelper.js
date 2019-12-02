@@ -51,7 +51,7 @@ function getTemperatureNow(obj, degreesType, weatherLang) {
     const weatherAllDays = [];
     const weatherOne = {
         temperature: `${degreeChecker(0)}&deg;`,
-        humidity: `${weatherLang.humidity} ${obj.list[0].main.humidity} %`,
+        humidity: `${weatherLang.humidity} ${obj.list[0].main.humidity}`,
         sky: `${weatherLang.sky[obj.list[0].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[0].wind.speed.toFixed(1)}`,
     }

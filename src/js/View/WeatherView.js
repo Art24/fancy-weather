@@ -27,6 +27,10 @@ class WeatherView {
         const sectionOne = this.htmlHelper.createElement('section' , 'weather-now-wrapper');
         const sectionTwo = this.htmlHelper.createElement('section' , 'weather-future-wrapper');
         const sectionThree = this.htmlHelper.createElement('section' , 'geolocation-wrapper');
+        // geolocation map
+        const map = this.htmlHelper.createElement('div');
+        map.setAttribute('id', 'map');
+        sectionThree.appendChild(map);
         const loader = this.htmlHelper.createElement('div', 'lds-roller');
         loader.setAttribute('id', 'loader');
         for (let i = 0; i < 8; i += 1) {
@@ -78,7 +82,8 @@ class WeatherView {
     findCityInterface() {
         this.header = document.getElementById('header');
         const searchBar = this.htmlHelper.createElement('div' , 'search-bar');
-        const cityInput = this.htmlHelper.createInput('text', 'cityInput', true);
+        const cityInput = this.htmlHelper.createInput('text', 'cityInput');
+        cityInput.setAttribute('x-webkit-speech', '');
         const findCityButton = this.htmlHelper.createButton('submit', 'Search', this.findCity.bind(this));
         findCityButton.setAttribute('class', 'btn');
         searchBar.appendChild(cityInput);

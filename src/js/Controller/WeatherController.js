@@ -5,6 +5,7 @@
  import WeatherService from '../Model/services/weatherService';
  import temperatureHelper from '../Model/helpers/getTemperatureHelper';
  import CustomLocationService from '../Model/services/customLocationService';
+ import MapService from '../Model/services/mapService';
 
 class WeatherController {
     constructor(model, view) {
@@ -13,6 +14,7 @@ class WeatherController {
         this.locationService = new LocationService();
         this.weatherService = new WeatherService();
         this.customLocationService = new CustomLocationService();
+        this.mapService = new MapService();
         this.localization = 'RU';
         this.city = undefined;
         this.degreesType = 'C';
@@ -42,9 +44,11 @@ class WeatherController {
                 const localTime = await this.getLocalTime(coords.coords.lat, coords.coords.lon);
                 this.view.showUserLocation(coords.name);
                 this.getDate(localization, localTime.formatted);
+                return coords;
             })
-            .then(() => {
+            .then((coords) => {
                 this.endLoad();
+                this.mapService.getMap(coords.coords.lat, coords.coords.lon);
             });
     }
 
