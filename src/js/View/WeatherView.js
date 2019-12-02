@@ -79,12 +79,16 @@ class WeatherView {
         
     }
     
+    changeBackground(img) {
+        this.root.style.background = `url('${img}')`;
+    }
+
     findCityInterface() {
         this.header = document.getElementById('header');
         const searchBar = this.htmlHelper.createElement('div' , 'search-bar');
         const cityInput = this.htmlHelper.createInput('text', 'cityInput');
         cityInput.setAttribute('x-webkit-speech', '');
-        const findCityButton = this.htmlHelper.createButton('submit', 'Search', this.findCity.bind(this));
+        const findCityButton = this.htmlHelper.createButton('submit', '&#128269;', this.findCity.bind(this));
         findCityButton.setAttribute('class', 'btn');
         searchBar.appendChild(cityInput);
         searchBar.appendChild(findCityButton);
@@ -198,7 +202,6 @@ class WeatherView {
 
     showCurrentWeather(dto) {
         let wrapper;
-        console.log(document.getElementById('mainTemperature'));
         if(!document.getElementById('mainTemperature')) {
             wrapper = this.htmlHelper.createElement('div', 'main-temperature');
             wrapper.setAttribute('id', 'mainTemperature');
@@ -264,9 +267,9 @@ class WeatherView {
     }
 
     startLoad() {
+        this.sectionThree.style.display = 'none';
         this.sectionOne.style.display = 'none';
         this.sectionTwo.style.display = 'none';
-        this.sectionThree.style.display = 'none';
         this.loader.style.display = 'inline-block'
     }
     

@@ -19,7 +19,6 @@ body {
 ul {
     list-style-type: none;
 }
-// LOADER
 .lds-roller {
     display: none;
     position: absolute;
@@ -120,11 +119,13 @@ header {
     .choose-language-bar {
         border: 1px solid rgba(174, 181, 185, 1);
         border-radius: 5px;
+        height: 95%;
     }
     .choose-degree-bar {
         border: 1px solid rgba(174, 181, 185, 1);
         border-radius: 5px;
         margin-left: 30px;
+        height: 95%;
     }
     .search-bar {
         border: 1px solid rgba(174, 181, 185, 1);
@@ -133,7 +134,7 @@ header {
         input[type=text] {
             padding-left: 20px;
             width: max-content;
-            height: 94%;
+            height: 96%;
             border: none;
             background: rgba(76, 82, 85, 0.4);
             font-size: 16px;
@@ -195,7 +196,7 @@ header {
     }
     .weather-one-list {
         order: 4;
-        font-size: 16px;
+        font-size: 20px;
         width: 90%;
         margin: 0 auto 70px auto;
         li {
@@ -224,10 +225,13 @@ header {
             min-height: 155px;
             li {
                 line-height: 2;
-                &:first-child {
-                    line-height: 1;
-                    font-size: 40px;
-                }
+            }
+            li:first-child {
+                line-height: 1;
+                font-size: 32px;
+            }
+            li:nth-child(2) {
+                font-size: 24px;
             }
         }
         .weather-three-list {
@@ -235,10 +239,13 @@ header {
             min-height: 155px;
             li {
                 line-height: 2;
-                &:first-child {
-                    line-height: 1;
-                    font-size: 40px;
-                }
+            }
+            li:first-child {
+                line-height: 1;
+                font-size: 32px;
+            }
+            li:nth-child(2) {
+                font-size: 24px;
             }
         }
         .weather-four-list {
@@ -246,10 +253,13 @@ header {
             min-height: 155px;
             li {
                 line-height: 2;
-                &:first-child {
-                    line-height: 1;
-                    font-size: 40px;
-                }
+            }
+            li:first-child {
+                line-height: 1;
+                font-size: 32px;
+            }
+            li:nth-child(2) {
+                font-size: 24px;
             }
         }
     }
@@ -258,7 +268,7 @@ header {
     display: flex;
     justify-content: center;
     position: absolute;
-    margin: 0 auto;
+    margin: 0 auto 100px auto;
     width: 400px;
     height: 300px;
     top: 12%;
@@ -272,7 +282,7 @@ header {
         display: flex;
         justify-content: center;
         position: sticky;
-        margin: 30px auto 0 auto;
+        margin: 30px auto 100px auto;
         width: 80%;
         height: 300px;
     }
@@ -283,12 +293,12 @@ header {
         left: 42.5%;
     }
     header {
-        flex-direction: column;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
         div {
             width: max-content;
-            margin: 10px 0;
+            margin: 10px;
         }
         button {
             padding: 10px;
@@ -298,16 +308,16 @@ header {
             margin: 0;
         }
         .choose-degree-bar {
-            order: 3;
+            order: 1;
         }
         .choose-language-bar {
             order: 2;
         }
         .search-bar {
-            order: 1;
+            order: 3;
             margin: 10px 0;
             input[type=text] {
-                height: 32px;
+                height: 35px;
             }
         }
     }
@@ -343,14 +353,18 @@ header {
         .main-temperature {
             align-self: center;
             .big-temperature {
+                margin-left: 16px;
                 font-size: 110px;
+            }
+            .weather-one-list {
+                padding-left: 20px;
+                font-size: 17px;
             }
         }
     }
     .geolocation-wrapper {
         display: flex;
         justify-content: center;
-        margin: 0 auto;
         width: 90%;
         height: 200px;
     }
@@ -383,7 +397,7 @@ header {
             margin-top: 30px;
             .big-temperature {
                 font-size: 80px;
-                margin-left: 20px;
+                margin-left: 10px;
             }
             .weather-one-list {
                 padding-top: 13px;

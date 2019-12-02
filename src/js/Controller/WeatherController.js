@@ -6,11 +6,13 @@
  import temperatureHelper from '../Model/helpers/getTemperatureHelper';
  import CustomLocationService from '../Model/services/customLocationService';
  import MapService from '../Model/services/mapService';
+ import BackgroundImageService from '../Model/services/backgroundImageService';
 
 class WeatherController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
+        this.backgroundImageService = new BackgroundImageService();
         this.locationService = new LocationService();
         this.weatherService = new WeatherService();
         this.customLocationService = new CustomLocationService();
@@ -41,15 +43,28 @@ class WeatherController {
                 return coords;
             })
             .then(async (coords) => {
+                this.changeBackground(coords.main);
+
                 const localTime = await this.getLocalTime(coords.coords.lat, coords.coords.lon);
                 this.view.showUserLocation(coords.name);
                 this.getDate(localization, localTime.formatted);
                 return coords;
             })
             .then((coords) => {
-                this.endLoad();
                 this.mapService.getMap(coords.coords.lat, coords.coords.lon);
-            });
+            })
+            .then(() => {
+                this.endLoad();
+            })
+    }
+
+    changeBackground(main) {
+        this.backgroundImageService.getBackgroundImage(main)
+        .then((res) => {
+            this.view.changeBackground(res.links.html); 
+        });
+
+        
     }
 
     getLocalTime(lat, lng) {
@@ -94,9 +109,11 @@ class WeatherController {
     }
 
     grabCityInfo(dto) {
+        console.log(dto);
         return {
             coords: dto.city.coord,
             name: dto.city.name,
+            main: dto.list[0].weather[0].main,
         };
     }
     

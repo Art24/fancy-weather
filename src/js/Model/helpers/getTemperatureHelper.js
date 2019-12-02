@@ -1,3 +1,5 @@
+import { getDayOfTheWeek } from "./getDateHelper";
+
 const weatherRu = {
     temperature: 'Температура',
     humidity: 'Влажность',
@@ -36,9 +38,7 @@ function convertToFahr(temperatureC) {
     return Math.floor((temperatureC * 9 / 5) + 32);
 }
 
-function getTemperatureNow(obj, degreesType, weatherLang) {
-
-
+function getTemperatureNow(obj, degreesType, weatherLang, localization) {
     function degreeChecker(period) {
         let tempTemperature = 0;
         if (degreesType === 'C') {
@@ -56,18 +56,21 @@ function getTemperatureNow(obj, degreesType, weatherLang) {
         wind: `${weatherLang.wind} ${obj.list[0].wind.speed.toFixed(1)}`,
     }
     const weatherTwo = {
+        dayOfWeek: getDayOfTheWeek(localization, 1),
         temperature: `${degreeChecker(8)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[8].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[8].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[8].wind.speed.toFixed(1)}`,
     }
     const weatherThree = {
+        dayOfWeek: getDayOfTheWeek(localization, 2),
         temperature: `${degreeChecker(16)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[16].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[16].weather[0].main]}`,
         wind: `${weatherLang.wind} ${obj.list[16].wind.speed.toFixed(1)}`,
     }
     const weatherFour = {
+        dayOfWeek: getDayOfTheWeek(localization, 3),
         temperature: `${degreeChecker(24)}&deg;`,
         humidity: `${weatherLang.humidity} ${obj.list[24].main.humidity} %`,
         sky: `${weatherLang.sky[obj.list[24].weather[0].main]}`,
@@ -78,12 +81,13 @@ function getTemperatureNow(obj, degreesType, weatherLang) {
 }
 const temperatureHelper = function getTempteratureHelper(localization, degreesType, temperatureNowObj) {
     if (localization === 'EN') {
-        return getTemperatureNow(temperatureNowObj, degreesType, weatherEn);
+        return getTemperatureNow(temperatureNowObj, degreesType, weatherEn, localization);
     } if (localization === 'RU') {
-        return getTemperatureNow(temperatureNowObj, degreesType, weatherRu);
+        return getTemperatureNow(temperatureNowObj, degreesType, weatherRu, localization);
     } if (localization === 'BY') {
-        return getTemperatureNow(temperatureNowObj, degreesType, weatherBy)
+        return getTemperatureNow(temperatureNowObj, degreesType, weatherBy, localization)
     }
     return getTemperatureNow();
 }
+
 export default temperatureHelper;

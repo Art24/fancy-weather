@@ -67,6 +67,18 @@ const weeksBy = {
     6: 'Субота',
     7: 'Нядзеля',
 }
+export function getDayOfTheWeek(lang, d) {
+    const date = new Date();
+
+    if (lang === 'EN') {
+        return weeksEn[Math.abs(date.getDay() + d % 7)];
+    } if (lang === 'RU') {
+        return weeksRu[Math.abs(date.getDay() + d % 7)];
+    } if (lang === 'BY') {
+        return weeksBy[Math.abs(date.getDay() + d % 7)];
+    }
+    return 0;
+}
 function getDateNow(localTime, months, weeks) {
     const splitedData = localTime.split(' ');
     const days = splitedData[0].split('-');
@@ -98,5 +110,4 @@ const dateHelper = function getDateHelper(localization, localTime) {
     }
     return getDateNow(monthsEn, weeksEn);
 }
-
 export default dateHelper;
