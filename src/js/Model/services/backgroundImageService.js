@@ -9,7 +9,7 @@ class BackgroundImageService {
             mode: 'cors'
         });
         const data = await response.json()
-        //data.headers.set("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+        // data.headers.set("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
         this.locationData = data;
         console.log(data);
         return data;

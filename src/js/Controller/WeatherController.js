@@ -61,10 +61,9 @@ class WeatherController {
     changeBackground(main) {
         this.backgroundImageService.getBackgroundImage(main)
         .then((res) => {
-            this.view.changeBackground(res.links.html); 
-        });
-
-        
+            console.log(res.urls.full);
+            this.view.changeBackground(res.urls.full); 
+        });        
     }
 
     getLocalTime(lat, lng) {

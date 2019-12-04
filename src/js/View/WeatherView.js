@@ -80,7 +80,8 @@ class WeatherView {
     }
     
     changeBackground(img) {
-        this.root.style.background = `url('${img}')`;
+        console.log(img);
+        this.root.style.background = `url(${img}) no-repeat`;
     }
 
     findCityInterface() {
