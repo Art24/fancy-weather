@@ -14,6 +14,7 @@ class WeatherView {
         this.changeToFahrEvent = new Event(this);
         this.changeToCelEvent = new Event(this);
         this.findCityEvent = new Event(this);
+        this.changeBackgroundEvent = new Event(this);
         this.init();
         this.sectionOne = document.getElementById('sectionOne');
         this.sectionTwo = document.getElementById('sectionTwo');
@@ -46,9 +47,17 @@ class WeatherView {
         this.root.appendChild(sectionTwo);
         this.root.appendChild(sectionThree);
         this.root.appendChild(loader);
+        this.changeBackgroundInterface();
         this.changeLanguageInterface();
         this.changeDegreeInterface();
         this.findCityInterface();
+    }
+
+    changeBackgroundInterface() {
+        this.header = document.getElementById('header');
+        const changeBack = this.htmlHelper.createButton('submit', '<span>&#8635;</span>' , this.changeBackground.bind(this));
+        changeBack.setAttribute('class', 'btn btn-image');
+        this.header.appendChild(changeBack);
     }
 
     changeLanguageInterface() {
@@ -79,9 +88,13 @@ class WeatherView {
         
     }
     
-    changeBackground(img) {
-        console.log(img);
-        this.root.style.background = `url(${img}) no-repeat`;
+    changeBackground() {
+        this.disableButton();
+        this.changeBackgroundEvent.notify();
+    }
+    
+    setBackground(img) {
+        this.root.style.background = `url(${img}) no-repeat center`;
     }
 
     findCityInterface() {

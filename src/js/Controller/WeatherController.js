@@ -7,7 +7,8 @@
  import CustomLocationService from '../Model/services/customLocationService';
  import MapService from '../Model/services/mapService';
  import BackgroundImageService from '../Model/services/backgroundImageService';
-
+ import detectTimeOfDay from '../Model/helpers/timeofday';
+ 
 class WeatherController {
     constructor(model, view) {
         this.model = model;
@@ -23,6 +24,8 @@ class WeatherController {
         this.invoker();
         this.lastWeather = undefined;
         this.currentCoords = undefined;
+        this.changeBackgroundOptions = undefined;
+        this.view.changeBackgroundEvent.attach(this.changeBackground.bind(this));
         this.view.changeToEngEvent.attach(this.invoker.bind(this));
         this.view.changeToRusEvent.attach(this.invoker.bind(this));
         this.view.changeToBelEvent.attach(this.invoker.bind(this));
@@ -43,11 +46,12 @@ class WeatherController {
                 return coords;
             })
             .then(async (coords) => {
-                this.changeBackground(coords.main);
-
                 const localTime = await this.getLocalTime(coords.coords.lat, coords.coords.lon);
-                this.view.showUserLocation(coords.name);
+                this.changeBackground(null, `${coords.main},${detectTimeOfDay(localTime)}`);
+                this.changeBackgroundOptions = `${coords.main},${detectTimeOfDay(localTime)}`;
                 this.getDate(localization, localTime.formatted);
+                this.view.showUserLocation(coords.name);
+
                 return coords;
             })
             .then((coords) => {
@@ -58,12 +62,14 @@ class WeatherController {
             })
     }
 
-    changeBackground(main) {
-        this.backgroundImageService.getBackgroundImage(main)
+    changeBackground(sender, main) {
+        this.backgroundImageService.getBackgroundImage(main || this.changeBackgroundOptions )
         .then((res) => {
-            console.log(res.urls.full);
-            this.view.changeBackground(res.urls.full); 
-        });        
+            return res.urls.raw;
+        })
+        .then((img) => {
+            this.view.setBackground(img); 
+        })        
     }
 
     getLocalTime(lat, lng) {
