@@ -71,11 +71,11 @@ export function getDayOfTheWeek(lang, d) {
     const date = new Date();
 
     if (lang === 'EN') {
-        return weeksEn[Math.abs(date.getDay() + d % 7)];
+        return weeksEn[(date.getDay() + d) % 7];
     } if (lang === 'RU') {
-        return weeksRu[Math.abs(date.getDay() + d % 7)];
+        return weeksRu[(date.getDay() + d) % 7];
     } if (lang === 'BY') {
-        return weeksBy[Math.abs(date.getDay() + d % 7)];
+        return weeksBy[(date.getDay() + d) % 7];
     }
     return 0;
 }

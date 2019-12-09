@@ -102,7 +102,7 @@ class WeatherView {
         const searchBar = this.htmlHelper.createElement('div' , 'search-bar');
         const cityInput = this.htmlHelper.createInput('text', 'cityInput');
         cityInput.setAttribute('x-webkit-speech', '');
-        const findCityButton = this.htmlHelper.createButton('submit', '&#128269;', this.findCity.bind(this));
+        const findCityButton = this.htmlHelper.createButton('submit', '<span>&#128269;</span>', this.findCity.bind(this));
         findCityButton.setAttribute('class', 'btn');
         searchBar.appendChild(cityInput);
         searchBar.appendChild(findCityButton);
@@ -181,6 +181,7 @@ class WeatherView {
         futureList.removeChild(tempNode2);
         futureList.removeChild(tempNode3);
         futureList.removeChild(tempNode4);
+        this.sectionThree.innerHTML = '';
     }
 
     changeToFahr(dergee) {
@@ -277,6 +278,27 @@ class WeatherView {
             const listViewItem = this.htmlHelper.createElement('li');
             listViewItem.innerHTML = dto[3][item];
             weatherFourWrapper.appendChild(listViewItem);
+        }
+    }
+
+    showCoords(dto) {
+        const currentLat = document.getElementById('lat');
+        const currentLon = document.getElementById('lon');
+        if (!currentLat) {
+            const latWrap = this.htmlHelper.createElement('span', 'lat');
+            latWrap.setAttribute('id', 'lat');
+            this.sectionThree.appendChild(latWrap);
+            latWrap.innerHTML = `${dto.lat}`;
+        } else {
+            currentLat.innerHTML = `${dto.lat}`;
+        }
+        if (!currentLon) {
+            const lonWrap = this.htmlHelper.createElement('span', 'lon');
+            lonWrap.setAttribute('id', 'lon');
+            this.sectionThree.appendChild(lonWrap);
+            lonWrap.innerHTML = `${dto.lon}`;
+        } else {
+            currentLon.innerHTML = `${dto.lon}`;
         }
     }
 

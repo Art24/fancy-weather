@@ -8,7 +8,8 @@
  import MapService from '../Model/services/mapService';
  import BackgroundImageService from '../Model/services/backgroundImageService';
  import detectTimeOfDay from '../Model/helpers/timeofday';
- 
+ import CoordsLanguageHelper from '../Model/helpers/coordsLanguageHelper';
+
 class WeatherController {
     constructor(model, view) {
         this.model = model;
@@ -18,6 +19,7 @@ class WeatherController {
         this.weatherService = new WeatherService();
         this.customLocationService = new CustomLocationService();
         this.mapService = new MapService();
+        this.coordsLanguageHelper = new CoordsLanguageHelper();
         this.localization = 'RU';
         this.city = undefined;
         this.degreesType = 'C';
@@ -34,8 +36,7 @@ class WeatherController {
         this.view.findCityEvent.attach(this.invoker.bind(this));
     }
 
-    getLocation(sender, localization, cityName, degreesType) {
-        // eslint-disable-next-line no-unused-expressions
+    getLocation(sender, localization, cityName, degreesType, isChangebackground) {
         this.locationService.getUserLocation()
             .then((res) => {
                 this.startLoad();
@@ -47,15 +48,17 @@ class WeatherController {
             })
             .then(async (coords) => {
                 const localTime = await this.getLocalTime(coords.coords.lat, coords.coords.lon);
-                this.changeBackground(null, `${coords.main},${detectTimeOfDay(localTime)}`);
-                this.changeBackgroundOptions = `${coords.main},${detectTimeOfDay(localTime)}`;
+                if (isChangebackground !== false) {
+                    this.changeBackground(null, `${coords.main} ${detectTimeOfDay(localTime)}`);
+                }
+                this.changeBackgroundOptions = `${coords.main} ${detectTimeOfDay(localTime)}`;
                 this.getDate(localization, localTime.formatted);
-                this.view.showUserLocation(coords.name);
-
+                this.showUserLocation(coords.name);
                 return coords;
             })
             .then((coords) => {
                 this.mapService.getMap(coords.coords.lat, coords.coords.lon);
+                this.showCoords(coords.coords.lat, coords.coords.lon);
             })
             .then(() => {
                 this.endLoad();
@@ -78,12 +81,17 @@ class WeatherController {
     }
 
     invoker(sender, localization, cityName, degreesType) {
+        let isChangeBackground = true;
+        if (localization) { 
+            isChangeBackground = false;
+        }
         localization ? this.localization = localization : localization;
         cityName ? this.city = cityName : cityName;
         degreesType ? this.degreesType = degreesType : degreesType;
-        this.getLocation(sender, this.localization, this.city, this.degreesType);
+        localStorage.setItem('localization', localization);
+        localStorage.setItem('degreestype', degreesType);
+        this.getLocation(sender, this.localization, this.city, this.degreesType, isChangeBackground);
     }
-
 
     getLocationAndDegree(sender, degreesType) {
         this.degreesType = degreesType;
@@ -95,6 +103,10 @@ class WeatherController {
     getDate(localization, localTime) {
         const currentTime = getDateHelper(localization, localTime);
         this.view.showCurrentDate(currentTime);
+    }
+
+    showCoords(lat, lon) {
+        this.view.showCoords(this.coordsLanguageHelper.getCoordLang(this.localization, lat, lon));
     }
 
     async getWeather(localization, degreesType, city) {
@@ -113,8 +125,11 @@ class WeatherController {
         return temp;
     }
 
+    showUserLocation(name) {
+        this.view.showUserLocation(name);
+    }
+
     grabCityInfo(dto) {
-        console.log(dto);
         return {
             coords: dto.city.coord,
             name: dto.city.name,
