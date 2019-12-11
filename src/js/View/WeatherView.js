@@ -181,7 +181,6 @@ class WeatherView {
         futureList.removeChild(tempNode2);
         futureList.removeChild(tempNode3);
         futureList.removeChild(tempNode4);
-        this.sectionThree.innerHTML = '';
     }
 
     changeToFahr(dergee) {

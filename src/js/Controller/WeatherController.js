@@ -20,9 +20,9 @@ class WeatherController {
         this.customLocationService = new CustomLocationService();
         this.mapService = new MapService();
         this.coordsLanguageHelper = new CoordsLanguageHelper();
-        this.localization = 'RU';
+        this.localization = localStorage.getItem('localization') || 'RU';
         this.city = undefined;
-        this.degreesType = 'C';
+        this.degreesType = localStorage.getItem('degreestype') || 'C';
         this.invoker();
         this.lastWeather = undefined;
         this.currentCoords = undefined;
@@ -88,13 +88,13 @@ class WeatherController {
         localization ? this.localization = localization : localization;
         cityName ? this.city = cityName : cityName;
         degreesType ? this.degreesType = degreesType : degreesType;
-        localStorage.setItem('localization', localization);
-        localStorage.setItem('degreestype', degreesType);
+        localization ? localStorage.setItem('localization', localization) : localStorage.setItem('localization', this.localization);
         this.getLocation(sender, this.localization, this.city, this.degreesType, isChangeBackground);
     }
 
     getLocationAndDegree(sender, degreesType) {
         this.degreesType = degreesType;
+        localStorage.setItem('degreestype', degreesType);
         const currentWeather = temperatureHelper(this.localization, degreesType, this.lastWeather);
         this.view.showCurrentWeather(currentWeather[0]);
         this.view.showWeatherThreeDays(currentWeather);

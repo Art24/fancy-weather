@@ -360,7 +360,7 @@ header {
             }
             .weather-one-list {
                 padding-top: 50px;
-                font-size: 13px;
+                font-size: 18px;
             }
         }
     }
@@ -377,9 +377,6 @@ header {
         .btn-language, .btn-degree {
             padding: 15px 25px;
         }
-        .choose-degree-bar {
-
-        }
     }
     .weather-now-wrapper {
         .main-temperature {
@@ -394,11 +391,17 @@ header {
             }
         }
     }
+    .weather-future-wrapper {
+        .weather-future-list {
+            ul {
+                padding-left: 25px;
+            }
+        }
+    }
     .geolocation-wrapper {
         display: flex;
         justify-content: center;
         width: 90%;
-        height: 200px;
     }
 }
 
